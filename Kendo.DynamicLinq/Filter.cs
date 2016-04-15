@@ -23,11 +23,26 @@ namespace Kendo.DynamicLinq
         [DataMember(Name = "operator")]
         public string Operator { get; set; }
 
+        private object _value = null;
         /// <summary>
         /// Gets or sets the filtering value. Set to <c>null</c> if the <c>Filters</c> property is set.
         /// </summary>
         [DataMember(Name = "value")]
-        public object Value { get; set; }
+        public object Value 
+        {
+            get 
+            {
+                return _value;
+            }
+            set 
+            {
+                Guid guidValue;
+                if (value != null && Guid.TryParse(value.ToString(), out guidValue))
+                    _value = guidValue;
+                else
+                    _value = value;
+            }
+        }
 
         /// <summary>
         /// Gets or sets the filtering logic. Can be set to "or" or "and". Set to <c>null</c> unless <c>Filters</c> is set.
